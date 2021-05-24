@@ -44,7 +44,7 @@ class User extends Authenticatable
         return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->email ) ) ) . "?d=mm&s=80";
     }
     public function conversations(){
-        return $this->belongsToMany(Conversation::class);
+        return $this->belongsToMany(Conversation::class)->withPivot('read_at');
     }
 
 }

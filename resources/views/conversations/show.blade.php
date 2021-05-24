@@ -41,8 +41,8 @@
                     @livewire('conversations.conversation-messages', ['conversation'=>$conversation, 'messages' => $conversation->messages])
 
                 </div>
+                @livewire('conversations.conversation-replay', ['conversation'=>$conversation])
 
-                <livewire:conversations.conversation-replay />
 
             </div>
         </div>
