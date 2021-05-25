@@ -2,8 +2,25 @@
 <!-- Typing area -->
 <form action="#" class="bg-light"
       x-data="conversationReplayState()"
-      wire:submit.prevent="replay"
+      wire:submit.prevent="reply"
 enctype="multipart/form-data">
+    @if($attachment)
+    <div class="input-group">
+        <div class="d-inline-flex align-items-center p-1 rounded border">
+            @if(in_array($attachment->extension(),['png','jpg','jpeg','gif']))
+            <img src="{{$attachment->temporaryUrl()}}" width="80">
+                @endif
+            @if(in_array($attachment->extension(),['wav','mp3']))
+                <i class="far fa-file-audio"></i>
+                @endif
+                @if(in_array($attachment->extension(),['mp4']))
+                    <i class="far fa-file-video"></i>
+                @endif
+        </div>
+        <!-- /.d-inline-flex -->
+    </div>
+    <!-- /.input-group -->
+    @endif
     <div class="input-group">
         <input type="text"
                wire:model = "body"

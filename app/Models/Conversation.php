@@ -21,6 +21,9 @@ class Conversation extends Model
             ->withPivot('read_at')
             ->withTimestamps()->oldest();
 }
+public function others(){
+      return  $this->users()->where('user_id','!=',auth()->user()->id);
+}
 public function messages(){
         return $this->hasMany(Message::class)->oldest();
 }

@@ -10,6 +10,19 @@ class ConversationList extends Component
 {
     public $conversations;
     public $conversation_inside;
+    public function getListeners()
+    {
+        return [
+            'echo-private:User.'.auth()->id().',Conversations\\ConversationUpdated' =>'updateConversationFromBroadCast',
+        ];
+    }
+    public function updateConversationFromBroadCast($payload){
+       if($conversation = $this->conversations->find($payload['conversation']['id'])){
+           $conversation->fresh();
+           $this->conversation_inside->fresh();
+       }
+    }
+
     public function mount(Collection $conversations,Conversation $conversation_inside){
         $this->conversations =$conversations;
         $this->conversation_inside =$conversation_inside;

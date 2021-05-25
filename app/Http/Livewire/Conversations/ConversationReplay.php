@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Conversations;
 
+use App\Events\Conversations\MessageAdded;
 use App\Models\Conversation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,7 +23,31 @@ protected $rules = [
 ];
     public function reply(){
         $this->validate(
+            $this->rules
         );
+        if($this->attachment){
+            $this->attachment_name = md5($this->attachment .microtime()).'.'.$this->attachment->extension();
+            $this->attachment->storeAs('/',$this->attachment_name,'media');
+            $data['attachment'] = $this->attachment_name;
+        }
+        $data['body'] = $this->body;
+        $data['user_id'] =auth()->user()->id;
+        $message = $this->conversation->messages()->create($data);
+        $this->conversation->update([
+            'last_massage_at' => now(),
+        ]);
+        foreach ($this->conversation->others as $user){
+            $user->conversations()->updateExistingPivot( $this->conversation ,
+                ['read_at'=> null]
+            );
+        }
+        broadcast(new MessageAdded($message))->toOthers();
+        $this->emit('message.created',$message->id);
+        $this->body = null;
+        $this->attachment = null;
+        $this->attachment_name = null;
+
+
     }
     public function render()
     {

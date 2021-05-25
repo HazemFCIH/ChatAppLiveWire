@@ -21,5 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');//end home route
-Route::get('/conversations',ConversationController::class.'@index')->name('conversations.index');//end conversations index route
-Route::get('/conversations/{conversation}',ConversationController::class.'@show')->name('conversations.show');// end conversations show route
+Route::group(['middleware'=> ['auth','verified']],function (){
+    Route::get('/conversations',ConversationController::class.'@index')->name('conversations.index');//end conversations index route
+    Route::get('/conversations/create',ConversationController::class.'@create')->name('conversations.create');//end conversations create route
+    Route::post('/conversations',ConversationController::class.'@store')->name('conversations.store');//end conversations store route
+    Route::get('/conversations/{conversation}',ConversationController::class.'@show')->name('conversations.show');// end conversations show route
+
+});

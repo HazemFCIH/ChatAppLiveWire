@@ -7,7 +7,13 @@
                     <h6 class="mb-0 text-black-50">{{$conversation->name != '' ? $conversation->name : $conversation->users->pluck('name')->join(',')}}</h6><small class="small font-weight-bold text-black-50">
                         {{$conversation->last_message_at ?? \Carbon\Carbon::createFromTimeStamp(strtotime($conversation->updated_at))->diffForHumans()}}</small>
                 </div>
-                <p class="font-italic mb-0 text-small text-black-50">{{$conversation->messages->last()->body}}</p>
+                <p class="font-italic mb-0 text-small text-black-50">
+                    @if(!auth()->user()->hasRead($conversation))
+                        <span class="{{$conversation->uuid  == $conversation_inside->uuid ? ' bg-white' : 'bg-primary'}} mr-2 rounded-circle"
+                        style="display: inline-table; width: 10px; height:10px;"></span>
+                        @endif
+                    {{$conversation->messages->last()->body}}
+                </p>
             </div>
         </div>
     </a>
