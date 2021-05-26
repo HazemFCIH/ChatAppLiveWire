@@ -11,19 +11,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ConversationUpdated implements ShouldBroadcast
+class ConversationCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $conversation;
     /**
      * Create a new event instance.
      *
      * @return void
      */
+    public $conversation;
+
     public function __construct(Conversation $conversation)
     {
         $this->conversation = $conversation;
+
     }
     public function broadcastWith(){
         return [
@@ -33,6 +35,7 @@ class ConversationUpdated implements ShouldBroadcast
         ];
     }
 
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -40,7 +43,7 @@ class ConversationUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return $this->conversation->users->map(function ($user){
+        return $this->conversation->others->map(function ($user){
             return new PrivateChannel('User.' . $user->id);
 
         })->toArray();

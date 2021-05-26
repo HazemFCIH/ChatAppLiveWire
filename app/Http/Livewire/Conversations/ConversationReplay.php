@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Conversations;
 
+use App\Events\Conversations\ConversationUpdated;
 use App\Events\Conversations\MessageAdded;
 use App\Models\Conversation;
 use Livewire\Component;
@@ -47,7 +48,7 @@ protected $rules = [
         $this->attachment = null;
         $this->attachment_name = null;
 
-
+    broadcast(new ConversationUpdated($this->conversation));
     }
     public function render()
     {

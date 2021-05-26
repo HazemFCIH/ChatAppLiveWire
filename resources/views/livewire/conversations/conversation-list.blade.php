@@ -11,6 +11,9 @@
                     @if(!auth()->user()->hasRead($conversation))
                         <span class="{{$conversation->uuid  == $conversation_inside->uuid ? ' bg-white' : 'bg-primary'}} mr-2 rounded-circle"
                         style="display: inline-table; width: 10px; height:10px;"></span>
+{{--                    @else--}}
+{{--                        <span class="{{$conversation->uuid  == $conversation_inside->uuid ? ' ' : ''}} mr-2 rounded-circle"--}}
+{{--                              style="display: inline-table; width: 10px; height:10px;"></span>--}}
                         @endif
                     {{$conversation->messages->last()->body}}
                 </p>

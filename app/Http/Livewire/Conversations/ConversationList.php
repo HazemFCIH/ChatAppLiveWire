@@ -14,7 +14,11 @@ class ConversationList extends Component
     {
         return [
             'echo-private:User.'.auth()->id().',Conversations\\ConversationUpdated' =>'updateConversationFromBroadCast',
+            'echo-private:User.'.auth()->id().',Conversations\\ConversationCreated' =>'CreateConversationFromBroadCast',
         ];
+    }
+    public function CreateConversationFromBroadCast($payload){
+        return $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
     }
     public function updateConversationFromBroadCast($payload){
        if($conversation = $this->conversations->find($payload['conversation']['id'])){
@@ -22,6 +26,7 @@ class ConversationList extends Component
            $this->conversation_inside->fresh();
        }
     }
+
 
     public function mount(Collection $conversations,Conversation $conversation_inside){
         $this->conversations =$conversations;

@@ -84,8 +84,9 @@
             @yield('content')
         </main>
     </div>
-    @yield('js')
+
     @livewireScripts
+    @yield('js')
 
 
 </body>

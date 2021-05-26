@@ -16,6 +16,7 @@
 
 
         <div class="row rounded-lg overflow-hidden shadow">
+            @include('partials.CreateConversation')
             <!-- Users box-->
             <div class="col-5 px-0">
                 <div class="bg-white">
