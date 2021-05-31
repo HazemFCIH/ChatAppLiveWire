@@ -38,7 +38,7 @@
             </div>
             <!-- Chat Box-->
             <div class="col-7 px-0">
-                <div class="px-4 py-5 chat-box bg-white">
+                <div class="px-4 py-5 chat-box bg-white" id="chat">
                     @livewire('conversations.conversation-messages', ['conversation'=>$conversation, 'messages' => $conversation->messages])
 
                 </div>
@@ -48,4 +48,18 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        /*$(function (){
+            $('.chat-box').stop().animate({
+                scrollTop: $('.chat-box')[0].scrollHeight
+            },1);
+        });*/
+        function scrollDown() {
+            document.getElementById('chat').scrollTop =  document.getElementById('chat').scrollHeight
+        }
+        setInterval(scrollDown, 1);
+    </script>
+
 @endsection

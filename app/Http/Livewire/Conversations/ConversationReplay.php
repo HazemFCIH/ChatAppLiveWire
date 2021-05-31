@@ -20,7 +20,7 @@ class ConversationReplay extends Component
     }
 protected $rules = [
     'body' => 'required',
-    'attachment' => 'nullable|file|mimes:png,jpg,jpeg,gif,wav,mp3,mp4|max:102400',
+    'attachment' => 'nullable|file|mimes:png,jpg,jpeg,gif,wav,mp3,mp4,m4a|max:102400',
 ];
     public function reply(){
         $this->validate(

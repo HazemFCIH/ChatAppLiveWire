@@ -16,23 +16,21 @@ class ConversationController extends Controller
     }// end constructor
 
     public function index(){
-        $conversations = auth()->user()->conversations;
-        return view('conversations.index',compact('conversations'));
+        return view('conversations.index');
     }// end index
     public function show(Conversation $conversation , Request $request){
-        $conversations = $request->user()->conversations;
+        $this->authorize('show',$conversation);
        // broadcast(new ConversationUpdated($conversation));
 
         $request->user()->conversations()->updateExistingPivot($conversation->id, [
             'read_at' => now(),
         ]);
 
-         return view('conversations.show',compact('conversation','conversations'));
+         return view('conversations.show',compact('conversation'));
 
     } //end show
     public function create(Request $request){
-        $conversations = auth()->user()->conversations;
-        return view('conversations.create',compact('conversations'));
+        return view('conversations.create');
     }// end create
     public function store(){
 
