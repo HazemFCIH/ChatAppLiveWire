@@ -43,12 +43,13 @@ protected $rules = [
             );
         }
         broadcast(new MessageAdded($message))->toOthers();
+        broadcast(new ConversationUpdated($message->conversation));
+
         $this->emit('message.created',$message->id);
         $this->body = null;
         $this->attachment = null;
         $this->attachment_name = null;
 
-    broadcast(new ConversationUpdated($this->conversation));
     }
     public function render()
     {

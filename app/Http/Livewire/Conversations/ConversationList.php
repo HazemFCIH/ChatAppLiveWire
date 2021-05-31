@@ -21,15 +21,18 @@ class ConversationList extends Component
         return $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
     }
     public function updateConversationFromBroadCast($payload){
-       if($conversation = $this->conversations->find($payload['conversation']['id'])){
-           $conversation->fresh();
-           $this->conversation_inside->fresh();
-       }
+        if(!$this->conversations->contains($payload['conversation']['id'])){
+          $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
+        }else{
+            $this->conversations->find($payload['conversation']['id'])->fresh();
+            $this->conversation_inside->fresh();
+        }
+
     }
 
 
     public function mount(Collection $conversations,Conversation $conversation_inside){
-        $this->conversations =$conversations;
+        $this->conversations =$conversations->reverse();
         $this->conversation_inside =$conversation_inside;
     }
     public function render()

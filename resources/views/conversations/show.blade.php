@@ -22,7 +22,7 @@
             <div class="col-5 px-0">
                 <div class="bg-white">
 
-                    @livewire('conversations.conversation-users', ['conversation'=>$conversation, 'users' => $conversation->users])
+                    @livewire('conversations.conversation-users', ['users' => $conversation->users , 'conversation'=>$conversation ])
 
 
                     <div class="messages-box">
